@@ -1,0 +1,67 @@
+{
+
+  "extensionName": {
+    "message": "Quiosco Koha",
+    "description": "Nombre de la extensión."
+  },
+
+  "extensionDescription": {
+    "message": "Quiosco Koha para retirar artículos en un entorno controlado, es decir, estantes cerrados o materiales de acceso restringido sin solicitud de reservas. Útil cuando la biblioteca quiere que los usuarios impriman su boleta por sí mismos.",
+    "description": "Descripción de la extensión."
+  },
+
+  "printSlipButton": {
+    "message": "Imprimir/Prestar",
+    "description": "Botón de impresión de boleta."
+  },
+
+  "headsUp": {
+    "message": "¡AVISO!",
+    "description": "Mensaje aviso"
+  },
+
+  "signOffMessage": {
+    "message": "Recuerda <strong>cerrar la sesión</strong> del Quiosco Koha cuando haya terminado de utilizarlo.",
+    "description": "Mensaje cerrar sesión para alertar a los usuarios que deben cerrar la sesión al finalizar de usarlo."
+  },
+
+  "popoverMessage": {
+    "message": "Ingrese a su cuenta para poder prestar materiales y/o gestionar sus datos",
+    "description": "Mensaje popover para que el usuario utilice su cuenta."
+  },
+
+  "modalTitle": {
+    "message": "Imprimir boleta",
+    "description": "Título del modal."
+  },
+
+  "cardNumber": {
+    "message": "No. de carné"
+  },
+
+  "helpBlockInput": {
+    "message": "Ingrese su número de carné, ejemplo, 26345000012941"
+  },
+
+  "logoutCheckBox": {
+    "message": "Cerrar sesión al finalizar la impresión",
+    "description": "Forzar el cierre de sesión si el checkbox está seleccionado."
+  },
+
+  "printButton": {
+    "message": "Imprimir"
+  },
+
+  "cancelButton": {
+    "message": "Cancelar"
+  },
+
+  "snapAlertHeading": {
+    "message": "¡Oh lo sentimos! Su cuenta ha sido deshabilitada"
+  },
+
+  "snapAlertContent": {
+    "message": "El Quiosco Koha no le permitirá imprimir boletas. Por favor, póngase en contacto con un bibliotecario para habilitar su cuenta nuevamente."
+  }
+
+}

@@ -1,0 +1,27 @@
+{
+
+  "manifest_version": 2,
+  "name": "__MSG_extensionName__",
+  "description": "__MSG_extensionDescription__",
+  "version": "1.0",
+  "homepage_url": "https://github.com/hecaxmmx/koha-kiosk/",
+  "icons": {
+    "48": "icons/koha-48.png",
+    "96": "icons/koha-96.png"
+  },
+
+  "permissions": [
+    "activeTab",
+    "storage"
+   ],
+
+  "content_scripts": [
+    {
+      "matches": ["*://sb.ues.edu.sv/*"],
+      "js": ["jquery-3.2.1.min.js", "bootstrap.min.js", "koha-kiosk.js"]
+    }
+  ],
+
+  "default_locale": "en"
+
+}

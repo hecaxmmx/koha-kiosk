@@ -1,0 +1,67 @@
+{
+
+  "extensionName": {
+    "message": "Koha Kiosk",
+    "description": "Name of the extension."
+  },
+
+  "extensionDescription": {
+    "message": "Koha Kiosk for checking-out items in controlled environment, i.e., closed shelf or closed access materials without placing holds request. Useful when library wants to borrowers print slips by themself.",
+    "description": "Description of the extension."
+  },
+
+  "printSlipButton": {
+    "message": "Print/checkout",
+    "description": "Print slip button."
+  },
+
+  "headsUp": {
+    "message": "HEADS UP!",
+    "description": "Heads up message"
+  },
+
+  "signOffMessage": {
+    "message": "Remember to <strong>sign off</strong> the koha kiosk when you have finished using it.",
+    "description": "Message close session to alert borrowers who must log out at the end of using it."
+  },
+
+  "popoverMessage": {
+    "message": "Log in to your account to be able to loan materials and/or manage your data",
+    "description": "Popover message for the borrower to use his account."
+  },
+
+  "modalTitle": {
+    "message": "Print slip",
+    "description": "Modal title."
+  },
+
+  "cardNumber": {
+    "message": "Card number"
+  },
+
+  "helpBlockInput": {
+    "message": "Enter your card number, e.g., 26345000012941"
+  },
+
+  "logoutCheckBox": {
+    "message": "Logout at the end of printing",
+    "description": "Force to logout if checkbox is checked."
+  },
+
+  "printButton": {
+    "message": "Print"
+  },
+
+  "cancelButton": {
+    "message": "Cancel"
+  },
+
+  "snapAlertHeading": {
+    "message": "Oh snap! Your account has been disabled."
+  },
+
+  "snapAlertContent": {
+    "message": "The Koha Kiosk will not allow you to print slips. Please contact a librarian to enable your account again."
+  }
+
+}
