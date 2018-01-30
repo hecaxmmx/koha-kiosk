@@ -10,6 +10,12 @@
     "96": "icons/koha-96.png"
   },
 
+  "applications": {
+    "gecko": {
+      "id": "koha-kiosk@koha.sv"
+    }
+  },
+
   "permissions": [
     "activeTab",
     "storage",
