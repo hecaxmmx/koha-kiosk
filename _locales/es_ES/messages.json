@@ -62,6 +62,22 @@
 
   "snapAlertContent": {
     "message": "El Quiosco Koha no le permitirá imprimir boletas. Por favor, póngase en contacto con un bibliotecario para habilitar su cuenta nuevamente."
+  },
+
+  "AccountFrozen": {
+    "message": "Tiene ítems retrasados. Su cuenta ha sido deshabilitada."
+  },
+
+  "AccountFrozenTitle": {
+    "message": "Cuenta en mora"
+  },
+
+  "SignedOffNotification": {
+    "message": "Su sesión ha sido cerrada con éxito."
+  },
+
+  "SignedOffNotificationTitle": {
+    "message": "Cierre de sesión"
   }
 
 }

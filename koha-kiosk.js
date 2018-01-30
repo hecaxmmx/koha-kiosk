@@ -23,13 +23,37 @@ $( "[href='/cgi-bin/koha/opac-shelves.pl?op=list&category=1']" ).attr( "class", 
 $( "[href='opac-ics.pl']" ).attr( "class", "koha_url" );
 
 //Selectors for elements that sent the outside of domain
-$( ".print-large, #export, #moresearches_menu, #opacnav a, #other_resources, .koha_url, .addtocart, .addtoshelf, #listsmenu, #cartmenulink" ).on("click", function(e){
+let outsideDomainHandleClick = `
+    #export,
+    #moresearches_menu,
+    #opacnav a,
+    #other_resources,
+    #listsmenu,
+    #cartmenulink
+    .print-large,
+    .koha_url,
+    .addtocart,
+    .addtoshelf`;
+
+let outsideDomainCSS = `
+    #export,
+    #moresearches_menu,
+    #opacnav a,
+    #other_resources,
+    #listsmenu,
+    #cartmenulink,
+    .koha_url,
+    .addtocart,
+    .addtoshelf,
+    .print-large`;
+
+$( outsideDomainHandleClick ).on("click", function(e){
     e.preventDefault;
 });
 
 $("#addto").attr("disabled", "disabled");
 
-$( ".print-large, #export, #moresearches_menu, #opacnav a, #other_resources, .koha_url, .addtocart, .addtoshelf, #listsmenu, #cartmenulink" ).css({
+$( outsideDomainCSS ).css({
     "pointer-events": "none",
     "cursor": "default",
     "color": "grey"
@@ -40,41 +64,51 @@ $( "#format, #furthersearches" ).css({
 });
 
 //Get localization messages
-var alert_debarred_heding  = browser.i18n.getMessage("snapAlertHeading"),
+let alert_debarred_heading = browser.i18n.getMessage("snapAlertHeading"),
 alert_debarred_content     = browser.i18n.getMessage("snapAlertContent"),
-extension_name     = browser.i18n.getMessage("extensionName"),
-print_slip_button  = browser.i18n.getMessage("printSlipButton"),
-heads_up           = browser.i18n.getMessage("headsUp"),
-sign_off_message   = browser.i18n.getMessage("signOffMessage"),
-popover_message    = browser.i18n.getMessage("popoverMessage"),
-modal_title        = browser.i18n.getMessage("modalTitle"),
-card_number        = browser.i18n.getMessage("cardNumber"),
-help_block_input   = browser.i18n.getMessage("helpBlockInput"),
-logout_checkbox    = browser.i18n.getMessage("logoutCheckBox"),
-print_button       = browser.i18n.getMessage("printButton"),
-cancel_button      = browser.i18n.getMessage("cancelButton");
+extension_name             = browser.i18n.getMessage("extensionName"),
+print_slip_button          = browser.i18n.getMessage("printSlipButton"),
+heads_up                   = browser.i18n.getMessage("headsUp"),
+sign_off_message           = browser.i18n.getMessage("signOffMessage"),
+popover_message            = browser.i18n.getMessage("popoverMessage"),
+modal_title                = browser.i18n.getMessage("modalTitle"),
+card_number                = browser.i18n.getMessage("cardNumber"),
+help_block_input           = browser.i18n.getMessage("helpBlockInput"),
+logout_checkbox            = browser.i18n.getMessage("logoutCheckBox"),
+print_button               = browser.i18n.getMessage("printButton"),
+cancel_button              = browser.i18n.getMessage("cancelButton");
 
 // Test if user is loggedin, If so, present button to print/ckeckout items else show a popover message
 if ( $( "span.loggedinusername" ).length ) {
     if ( $( "li#userdebarred" ).length ) {
-        browser.storage.local.set( {set_button_print: 0} );
-        var userdebarred = `<button type="button" class="closebtn" data-dismiss="alert">&times;</button>
-                           <h4 class="alert-heading">${alert_debarred_heding}</h4>
+        browser.runtime.sendMessage({"button": 0});
+        let userdebarred = `<button type="button" class="closebtn" data-dismiss="alert">&times;</button>
+                           <h4 class="alert-heading">${alert_debarred_heading}</h4>
                            <p>${alert_debarred_content}</p>`;
         $( "div#notesaved" ).append( userdebarred );
         $( "div#notesaved" ).css({ "display": "block" });
         $( "div#notesaved" ).attr( "class", "alert alert-block alert-error fade in" );
-    } else {
-        browser.storage.local.set( {set_button_print: 1} );
     }
 
     //Get Boolean if true show button else don't show it
-    var gettingItem = browser.storage.local.get( "set_button_print" );
-    gettingItem.then(displayButton(), null);
-    browser.storage.local.clear();
+    let gettingItem = browser.storage.local.get( "set_button_print" );
+    gettingItem.then( ( val ) => {
+        if ( val.set_button_print == 1 ) {
+            let append_button_print  = `<button class="btn btn-mini button-added" type="button">
+                                       ${print_slip_button}</button>`;
+            $( ".item-status.available" ).append( append_button_print );
+        //Add printSlip() as a listener to click events on the class "button-added".
+        //listener added at this point due timing in promises.
+        //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises#Timing
+            let buttonAdded = document.getElementsByClassName( "button-added" ), i;
+            for ( i = 0; i < buttonAdded.length; i++ ) {
+                buttonAdded[i].addEventListener( "click", printSlip );
+            }
+        }
+    }, onError);
 
     if ( $( "#userdetails" ).length ) {
-        var warning_alert = `<div class="alert alert-info">
+        let warning_alert = `<div class="alert alert-info">
                              <button type="button" class="closebtn" data-dismiss="alert">&times;</button>
                              <p class="text-center lead">${heads_up} ${sign_off_message}</p></div>`;
         $( "#header-region" ).append( warning_alert );
@@ -86,27 +120,31 @@ if ( $( "span.loggedinusername" ).length ) {
     $( "[href='/cgi-bin/koha/opac-user.pl']" ).attr( "data-content", popover_message );
     $( "[href='/cgi-bin/koha/opac-user.pl']" ).attr( "data-trigger", "manual" );
     $( "[href='/cgi-bin/koha/opac-user.pl']" ).popover( "show" );
+    browser.runtime.sendMessage({"button": 1});
 }
 
-function displayButton() {
-    var append_button_print  = `<button class="btn btn-mini from-content-script" type="button">
-                               ${print_slip_button}</button>`
-    $( ".item-status.available" ).append( append_button_print );
+$( "#logout" ).on( "click", function(){
+    browser.runtime.sendMessage({"logout": 1});
+});
+
+//Generic error logger
+function onError(e) {
+    console.error(e);
 }
 
 //Send a message to the page script
 
-function messagePageScript() {
+function printSlip() {
     //look up if modal exist, if true then remove it
     if ( $( "#print_slip_modal" ).length ) {
         $( "#print_slip_modal" ).remove();
     }
     // Take tile, author of book and borrower name
-    var book_title_resp_stmt = $( "h1.title" ).text(),
+    let book_title_resp_stmt = $( "h1.title" ).text(),
     borrowername             = $( "span.loggedinusername" ).text();
 
     //take the index of the element clicked
-    var click_row = $( this ).parent().parent().parent().index(),
+    let click_row = $( this ).parent().parent().parent().index(),
     click_col     = $( this ).parent().parent().index(),
     table         = $( "#DataTables_Table_0" );
     //iterating through table
@@ -201,7 +239,7 @@ function messagePageScript() {
             }
         }
         //trim double, triple and so on... spaces between words
-        var item_type_trimed         = item_type.replace( /\s\s+/g, ' ' ),
+        let item_type_trimed         = item_type.replace( /\s\s+/g, ' ' ),
         item_current_location_trimed = item_current_location.replace( /\s\s+/g, ' ' ),
         item_ccode_trimed            = item_ccode.replace( /\s\s+/g, ' ' );
 
@@ -209,7 +247,7 @@ function messagePageScript() {
         // alert("barcode: " + barcode.text() + " colindex: " + col + " rowindex: " + row + " clicking row: " + click_row);
         if ( click_row == row ) {
             //insert modal to take borrower card number
-            var print_slip_modal = `<div id="print_slip_modal" class="modal hide fade">
+            let print_slip_modal = `<div id="print_slip_modal" class="modal hide fade">
                                    <div class="modal-header">
                                    <button type="button" class="closebtn" data-dismiss="modal" aria-hidden="true">
                                    &times;</button>
@@ -292,12 +330,12 @@ function messagePageScript() {
     });
 }
 
-//Add messagePageScript() as a listener to click events on the class "from-content-script".
+window.addEventListener("message", (event) => {
+  if (event.source == window &&
+      event.data.message == "1" &&
+      event.data.direction == "from-page-script") {
+      browser.runtime.sendMessage({"logout": 1});
+  }
+});
 
-var fromContentScript = document.getElementsByClassName( "from-content-script" );
-
-var i;
-for ( i = 0; i < fromContentScript.length; i++ ) {
-    fromContentScript[i].addEventListener( "click", messagePageScript );
-}
 

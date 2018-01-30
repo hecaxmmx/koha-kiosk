@@ -62,6 +62,22 @@
 
   "snapAlertContent": {
     "message": "The Koha Kiosk will not allow you to print slips. Please contact a librarian to enable your account again."
+  },
+
+  "AccountFrozen": {
+    "message": "You have overdue items. Your account has been frozen."
+  },
+
+  "AccountFrozenTitle": {
+    "message": "Account frozen"
+  },
+
+  "SignedOffNotification": {
+    "message": "Your session has been closed successfully."
+  },
+
+  "SignedOffNotificationTitle": {
+    "message": "Sign Off"
   }
 
 }

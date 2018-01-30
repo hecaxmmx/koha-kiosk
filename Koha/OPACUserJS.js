@@ -40,6 +40,13 @@ html += "<div style='float:left; width:40%'>";
 html += "<p style='float:right;'>Firma:_________________</p></div></div>";
 html += "</body>";
 
+function messageContentScript() {
+  window.postMessage({
+    direction: "from-page-script",
+    message: "1"
+  }, "*");
+}
+
 //functions to print in iframe object
 function closePrint () {
     document.body.removeChild(this.__container__);
@@ -56,6 +63,7 @@ function setPrint () {
 function printSlipForm() {
     if( document.getElementById("logout_checkbox").checked ) {
         window.location.href = '/cgi-bin/koha/opac-main.pl?logout.x=1';
+        messageContentScript();
     }
     var today = new Date();
     var iframe = document.createElement("iframe");
